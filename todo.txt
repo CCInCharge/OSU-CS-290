@@ -1,0 +1,2 @@
+Get node.js on flip sorted out
+Read Eloquent JS Ch 12
