@@ -1,0 +1,26 @@
+tbody th {
+  font-weight: normal;
+  font-style: italic;
+}
+
+tbody tr:nth-of-type(odd) {
+  background-color: red;
+}
+tbody tr:nth-of-type(even) {
+  background-color: yellow;
+}
+
+.outer-content {
+  position: relative;
+  top: 20px;
+  left: 0px;
+  width: 75%;
+  background-color: pink;
+}
+
+.inner-content {
+  background-color: blue;
+  width: 75%;
+  text-align: center;
+  margin: 0 auto;
+}
