@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", function() {
   createTable();
+  createButtons();
+  document.getElementById("left").addEventListener("click", clickLeft);
+  document.getElementById("right").addEventListener("click", clickRight);
+  document.getElementById("up").addEventListener("click", clickUp);
+  document.getElementById("down").addEventListener("click", clickDown);
+  document.getElementById("mark").addEventListener("click", markCell);
 });
 
 function clickLeft() {
@@ -119,4 +125,33 @@ function createTable() {
   r3c4.style.border = "solid black";
 
   bodyElement.appendChild(newTable);
+}
+
+function createButtons() {
+  var bodyElement = document.getElementsByTagName("body")[0];
+  var left = document.createElement("BUTTON");
+  left.textContent = "Left";
+  left.id = "left";
+  var right = document.createElement("BUTTON");
+  right.textContent = "Right";
+  right.id = "right";
+  var up = document.createElement("BUTTON");
+  up.textContent = "Up";
+  up.id = "up";
+  var down = document.createElement("BUTTON");
+  down.textContent = "Down";
+  down.id = "down";
+  var mark = document.createElement("BUTTON");
+  mark.textContent = "Mark Cell";
+  mark.id = "mark";
+  bodyElement.appendChild(left);
+  bodyElement.appendChild(down);
+  bodyElement.appendChild(up);
+  bodyElement.appendChild(right);
+  bodyElement.appendChild(mark);
+}
+
+function markCell() {
+  var curSelected = document.getElementById("selected");
+  curSelected.style.backgroundColor = "yellow";
 }
