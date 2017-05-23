@@ -1,0 +1,23 @@
+{
+    "name": "Charles Chen",
+    "university": "Oregon State University",
+    "year": 2016,
+    "current_class": {
+        "number": 290,
+        "name": "Introduction to Web Development"
+    },
+    "past_classes": [
+        {
+            "number": 161,
+            "name": "Introduction to Computer Science"
+        },
+        {
+            "number": 271,
+            "name": "Assembly Language"
+        },
+        {
+            "number": 225,
+            "name": "Discrete Math"
+        }
+    ]
+}

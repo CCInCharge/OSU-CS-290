@@ -1,0 +1,212 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <link rel="stylesheet" href="bootstrap.css">
+  <script src="scripts.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <title>NYT Api How-To</title>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <span class="navbar-brand">NYT API</a>
+  </div>
+</nav>
+<div class="container">
+  <div class="page-header">
+    <h1>New York Times Books Web App</h1>
+    <p class="lead">A tutorial on how to create your first web app using JavaScript and the New York Times Books API</p>
+  </div>
+  <div class="row">
+    <h2>Introduction</h2>
+    <p>In this tutorial, we will learn about the basics of creating a web appplication that consumes a web API using JavaScript. This tutorial assumes some basic familiarity with HTML, CSS, and JavaScript. By the end of this tutorial, we will create a web app that allows users to search for book reviews on New York Times.</p>
+    <p>You may have created static websites before - websites with content that does not change. However, there isn't much we can do with a static website. Dynamic websites are websites with content that can change from user to user - think, as an example, a weather website that allows you to search for weather in various cities. A weather website would not be very useful if it was static!</p>
+    <p>One of the cool things about web development is that we have easy access to data that has been collected by other programmers, and we can use this data when creating our own websites. This interactivity is what makes the web so powerful. We can use data from other websites to enrich our own web application.</p>
+    <p>Web programmers expose this data for our use via <strong>API's</strong> (Application Programming Interface). While the term "API" has a broad definition, it commonly has a specific meaning in the context of web development. Typically, when we're talking about API's in the web development world, we're talking about applications that take in certain <strong>queries</strong> via <strong>HTTP GET or POST requests</strong>, and return results in <strong>JSON</strong> (JavaScript Object Notation) format. JSON format is a common data type, and there are methods within JavaScript that make it very easy for us to handle JSON data.</p>
+  </div>
+  <div class="row">
+    <h2>Getting Started</h2>
+    <p>Let's learn more by actually consuming (using) an API to make our own web app! For this exercise, we will be using the New York Times Books API.</p>
+    <p>To get started, let's go to the NYT's developer website: <a href="https://developer.nytimes.com/">https://developer.nytimes.com/</a></p>
+    <p>Click on the "Get NYT API Key" button at the top:</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="thumbnail">
+        <img src="media/NYT_API_Key.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>You should come to the following registration site. Go ahead and enter in your name, e-mail address, and website. Be sure to select the Books API:</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-4 col-md-4">
+      <div class="thumbnail">
+        <img src="media/API_Reg.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>With this complete, check your e-mail - you should have just received an API key.</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <div class="thumbnail">
+        <img src="media/API_Key_Email.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>Do not lose this key! We will need it to access the API.</p>
+  </div>
+  <div class="row">
+    <h2>What is JSON?</h2>
+    <p>Before we continue, let's take a quick detour and talk about JSON. JSON stands for JavaScript Object Notation, and it's used to create objects within JavaScript. However, don't let this confuse you - JSON is not used exclusively within the JavaScript language. JSON encapsulates data in an intuitive and human-readable format - because of this, it has become a de-facto standard for storing data, even outside of JavaScript applications. We need to know about how to work with JSON because many web API's (including the NYT API) return data in this format.</p>
+    <p>Let's open up a JavaScript interpreter. Feel free to either type in <code>node</code> in your shell (if you have node installed), or you can open up the developer tools in your web browser (View > Developer > JavaScript Console in Chrome).</p>
+    <p>Either way, when you are done, type in the following command:</p>
+    <pre>var myObj = {
+        "name": "Charles Chen",
+        "university": "Oregon State University",
+        "year": 2016,
+        "current_class": {
+            "number": 290,
+            "name": "Introduction to Web Development"
+        },
+        "past_classes": [
+            {
+                "number": 161,
+                "name": "Introduction to Computer Science"
+            },
+            {
+                "number": 271,
+                "name": "Assembly Language"
+            },
+            {
+                "number": 225,
+                "name": "Discrete Math"
+            }
+        ]
+    };</pre>
+    <p>This created an object. You can verify this for yourself by typing in <code>typeof(myObj);</code>.
+      <pre>>> typeof(myObj)
+'object'</pre>
+    <p>Let's take a look at this object. As you can see, it's relatively human-readable. It has several <strong>keys</strong>, such as "name", "university", "year", "current_class", and "past_class". Each of these keys has a <strong>value</strong>. For example, the value for the "name" key is "Charles Chen". The value for a given key can be a string ("Oregon State University"), a number (2016), or even another object (value for "current_class" key). We even see that the value for "past_classes" is a list of objects.</p>
+    <p>Keys in JSON are always strings. We can access the value of a key-value pair by using dot notation - typing in <code>&lt;object&gt;.&lt;key&gt;</code> will reference the value specified by that key.</p> For example, try accessing the value at the "university" key stored in our <code>myObj</code> object above.
+    <pre>>> myObj.university
+'Oregon State University'</pre>
+    <p>Now try the same with the "year" key. The value that will be returned is a number - we can verify that for ourselves.</p>
+    <pre>>> myObj.year
+2016
+>> typeof(myObj.year)
+'number'</pre>
+  <p>We can see that <code>myObj.current_class</code> will return an object. We can access values within this object directly as well. Try typing in <code>myObj.current_class.number</code>. What do you expect to see?</p>
+  <pre>>> myObj.current_class.number
+290</pre>
+  <p>Finally, let's look at <code>myObj.past_classes</code>. This is a list of objects. We can reference the second object in this list with <code>myObj.past_classes[1]</code>. We can then use dot notation again to access the value at this object's key.</p>
+  <pre>>> myObj.past_classes[1]
+{ number: 271, name: 'Assembly Language' }
+>> myObj.past_classes[1].name
+'Assembly Language'</pre>
+  </div>
+  <div class="row">
+    <h2>Books API Endpoints</h2>
+    <p>Now that we know how to work with JSON, let's go ahead and work with the actual Books API. When we work with an API, we send queries to its <strong>endpoints</strong>. An endpoint is simply a resource that we can send API requests to.</p>
+    <p>Let's take a look at an example. Let's go to the following site:</p>
+    <a href="https://developer.nytimes.com/books_api.json">https://developer.nytimes.com/books_api.json</a>
+    You should see a site like this:
+  </div>
+  <div class="row">
+    <div class="col-sm-6 col-md-6">
+      <div class="thumbnail">
+        <img src="media/NYT_API_Endpoints.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>If we query the /lists/best-sellers/history.json endpoint, we will get a list of the Best Seller History. If we query the /lists/{date}/{list}.json endpoint, we get the Best Seller List by Date, and so on. Let's give it a try. Click on the "Try It Out" button next to the /lists/best-sellers/history.json endpoint.</p>
+    <p>What we have here is essentially an interactive documentation for the Books API. We can test sending various queries to the API, and see what the response will look like. Enter your api-key, and click on View Results. You should see the JSON response.</p>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="thumbnail">
+        <img src="media/History_Example.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>We now know how to work with JSON objects, and can interpret what this response is returning to us. We could copy this response to an object variable in our Chrome console (or Node interpreter), and play around with it to understand what is contained in this data. Type in <code>var responseNYT = </code>, and then copy and paste the response there.</p>
+    <pre>var responseNYT = {
+  "status": "OK",
+  "copyright": "Copyright (c) 2017 The New York Times Company.  All Rights Reserved.",
+  "num_results": 30614,
+...};</pre>
+  </div>
+  <div class="row">
+    <p>As we can see, it returns an object with the status, copyright, num_results, and results keys. You can verify this for yourself with the Object.keys() method.</p>
+    <pre>>> Object.keys(responseNYT)
+[ 'status', 'copyright', 'num_results', 'results' ]</pre>
+    <p>Of particular interst to us is the value of the results key, a list of objects (in this case, a list of 20 objects).</p>
+    <pre>>> typeof(responseNYT.results)
+'object'
+>> responseNYT.results.length
+20
+>> responseNYT.results[5]
+{ title: '$20 PER GALLON',
+  description: '',
+  contributor: 'by Christopher Steiner',
+  author: 'Christopher Steiner',
+  contributor_note: '',
+  price: 0,
+  age_group: '',
+  publisher: 'Grand Central',
+  isbns: [],
+  ranks_history: [],
+  reviews:
+   [ { book_review_link: '',
+       first_chapter_link: '',
+       sunday_review_link: '',
+       article_chapter_link: '' } ] }</pre>
+  <p>Cool. Let's try narrowing down our results a bit. On the left, scroll down until you see "Parameters". Then, type in "architecture" under title. Now, we will only receive results with the word "architecture" in the title.
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12">
+      <div class="thumbnail">
+        <img src="media/Architecture_Title.png" class="img-responsive" />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <p>Feel free to play around with other search queries, as well as other endpoints of the API as you see fit. Let's move on to creating a little web app with this endpoint.</p>
+  </div>
+  <div class="row">
+    <h2>Querying the API with GET</h2>
+    <p>The documentation we were looking at earlier was great for getting a basic understanding of the search queries we can use and the format of the response. However, in practice, our web app will not interact with the API in this way. We're going to use a GET request. Let's go to the README link, which you can find on the top right (or just click here).</p>
+    <p><a href="https://developer.nytimes.com/books_api.json#/README">README</a></p>
+    <p>Ok, what's going on here? Well, we can see that there's a Base URI of <code>http://api.nytimes.com/svc/books/{version}/lists</code>.</p>
+    <p>Basically, a GET request is a type of HTTP request. It's one of the ways that we can interact with a web server. When we issue a GET request, the resource that's specified is requested, along with any parameters in the query.</p>
+    <p>Huh?</p>
+    <p>Ok, remember when we were on the API documentation and playing around with different parameters? We tried typing in "architecture" for the title parameter. That documentation page was just a sandbox for us to play around with API queries. The way we would actually use this API in our real web app is quite different. Let's actually do it for real now, in a GET request.</p>
+    <p>The API Key and the title parameters need to be in our query. The query is placed at the end of the URL resource, followed by a ?, and the key/value pairs of our query. Let's look at an example.</p>
+    <p>Type in the following in your web browser (replace &lt;API_KEY&gt; with your API Key, and get rid of the brackets):</p> <p><code>http://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key=<strong>&lt;API_KEY&gt;</strong>&title=architecture</code></p>
+    <p>Does the response look familiar? You should get something like this:</p>
+    <pre>{"status":"OK","copyright":"Copyright (c) 2017 The New York Times...</pre>
+    <p>The <code>http://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json</code> portion of the above request is the <strong>resource</strong> we're trying to retrieve. The ? denotes our query parameters. The query parameters are separated by &, and we specify them in key=value format. In the example above, the "title" key was given the value of "architecture". This method is how we're going to use the API in our actual web app.</p>
+  </div>
+  <div class="row">
+    <h2>Querying the API with JavaScript</h2>
+    <p>Let's learn how we are going to actually query the API in JavaScript. When we pointed our browser to the API endpoint, we issued an HTTP GET request to that endpoint, and received a bunch of JSON text on the screen. However, what we really want is to do this within JavaScript, and to get back a JSON object that we can then manipulate.</p>
+  </div>
+</div>
+</body>
+</html>
