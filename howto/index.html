@@ -236,7 +236,11 @@ $.ajax({
   </div>
   <div class="row">
     <h2>Creating a Web App</h2>
-    <p>Ok great.</p>
+    <p>Ok great. Let's go ahead and add some more functionality. Let's create a form that will allow us to view the results in the console when we enter in the name of an author. For the following code, you can click on "HTML". Before you search for an author, make sure to have the developer's console open.</p>
+    <iframe width="100%" height="300" src="https://jsfiddle.net/CCInCharge/Lfjkjg0m/12/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <p>Let's explain what's going on here. First of all, we have the searchAuthor function. This function will take the value inside the element that has the author id. jQuery uses $ to indicate a selector, which is a shortcut for using JavaScript's DOM accessor functions. In this situation, <code>$("#author")</code> is equivalent to <code>document.getElementById("author")</code>. In our HTML, we have an input field with the "author" id, so <code>.val</code> obtains the value of the string within this input field. We then issue the ajax request with this author.</p>
+    <p>We also notice a <code>$(document).ready()...</code> section of the code. This method takes a callback function as a parameter, which is called when the DOM has loaded. It is equivalent to assigning a callback function to the DOMContentLoaded event. Inside it, we have <code>$("#search").click(searchAuthor);</code>. This line binds an onClick event to the element in the DOM with the #search id - in this case, the search button.</p>
+    <p>This is great. However, what we're really like to do is to show the user the results inside our web app. Logging this information to the console isn't particularly useful.</p>
   </div>
 </div>
 </body>
