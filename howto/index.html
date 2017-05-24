@@ -205,7 +205,38 @@
   </div>
   <div class="row">
     <h2>Querying the API with JavaScript</h2>
-    <p>Let's learn how we are going to actually query the API in JavaScript. When we pointed our browser to the API endpoint, we issued an HTTP GET request to that endpoint, and received a bunch of JSON text on the screen. However, what we really want is to do this within JavaScript, and to get back a JSON object that we can then manipulate.</p>
+    <p>Let's learn how we are going to actually query the API in JavaScript. When we pointed our browser to the API endpoint, we issued an HTTP GET request to that endpoint, and received a bunch of JSON text on the screen. However, what we really want is to do this within JavaScript, and to get back a JSON object that we can then manipulate. If we go back to <a href="https://developer.nytimes.com/books_api.json">the API documentation</a> and click on the history.json link, we can poke around. With no inputs into the query parameters, the documentation tells us that we can use the following code to query the API:</p>
+    <pre>
+var url = "https://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json";
+url += '?' + $.param({
+  'api-key': "ae353dbedd394dbda571ffda02387b07"
+});
+$.ajax({
+  url: url,
+  method: 'GET',
+}).done(function(result) {
+  console.log(result);
+}).fail(function(err) {
+  throw err;
+});</pre>
+    <p>This code is not pure JavaScript. It uses a UI library called jQuery. jQuery is essentially a library that extends JavaScript with several functions, which makes it exceptionally easy to perform certain tasks such as making an AJAX request to an API.</p>
+    <p>For the sake of this tutorial, we'll go ahead and use jQuery. Let's just go ahead and get this code into jsFiddle, and then try to understand what is happening with the code block above.</p>
+    <p>In order to get this working in jsFiddle, you'd have to click on the External Resources tab, and add the jQuery library. You could go to the <a href="http://jquery.com/download/">jQuery website</a> and then get the link of one of the CDN's (Content Delivery Networks), and paste that link into the jsFiddle external resources section.</p>
+    <p>For convenience, I've done the above steps. Feel free to click on "Edit in JSFiddle" below, and then "Run" once you get to the JSFiddle website. Make sure to have your developer's console open.</p>
+    <iframe width="100%" height="300" src="https://jsfiddle.net/CCInCharge/Lfjkjg0m/2/embedded/js,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <p>Great! You should see the object logged onto your console. Let's explain the actual code above. We first create a variable, named url, which holds the API endpoint that we are going to send a GET request to. This is simply a string. We then use jQuery's .ajax method to send an asynchronous request to this API endpoint. The .ajax method takes in an object, which defines its settings for the call. The url key defines the URL to which we are sending the request, and the method key defines whether this is a GET or POST request. We then use the .done method, and pass it a callback function that it will execute if the ajax request is successful. If not, the callback function passed to the .fail method will be executed. In this specific case, we log the object to the console, so you should see it in the developer's console.</p>
+    <p>Go ahead and try executing the below JavaScript. You can see that we added something to the url string.</p>
+    <iframe width="100%" height="300" src="https://jsfiddle.net/CCInCharge/Lfjkjg0m/5/embedded/js,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <p>You should see an object with only Murakami's works. The $.param method takes an object, and serializes it into an HTTP encoded URL. So, in other words, remember how we accessed <code>http://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?api-key=<strong>&lt;API_KEY&gt;</strong>&title=architecture</code> directly in the browser earlier? We could use jQuery and pass the param object with the appropriate key-value pairs to get the same string, e.g.</p>
+    <pre>var url = "http://api.nytimes.com/svc/books/v3/lists/best-sellers/history.json?"
+      + $.param({
+        api-key: <strong>&lt;API_KEY&gt;</strong>,
+        title: "architecture"
+      });</pre>
+  </div>
+  <div class="row">
+    <h2>Creating a Web App</h2>
+    <p>Ok great.</p>
   </div>
 </div>
 </body>
