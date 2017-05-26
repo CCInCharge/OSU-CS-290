@@ -11,17 +11,6 @@
   <title>NYT Api How-To</title>
 </head>
 <body>
-<nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-    <span class="navbar-brand">NYT API</a>
-  </div>
-</nav>
 <div class="container">
   <div class="page-header">
     <h1>New York Times Books Web App</h1>
@@ -242,6 +231,24 @@ $.ajax({
     <p>We also notice a <code>$(document).ready()...</code> section of the code. This method takes a callback function as a parameter, which is called when the DOM has loaded. It is equivalent to assigning a callback function to the DOMContentLoaded event. Inside it, we have <code>$("#search").click(searchAuthor);</code>. This line binds an onClick event to the element in the DOM with the #search id - in this case, the search button.</p>
     <p>This is great. However, what we're really like to do is to show the user the results inside our web app. Logging this information to the console isn't particularly useful.</p>
   </div>
+  <div class="row">
+    <h2>Finishing Touches on Web App</h2>
+    <p>Finally, let's go ahead and turn this into a web app that will take a user's search for an author, and display book titles by that author. Take a look at the following code, and test it yourself using the "Results" link:</p>
+    <iframe width="100%" height="300" src="https://jsfiddle.net/CCInCharge/Lfjkjg0m/13/embedded/js,html,result/" allowfullscreen="allowfullscreen" frameborder="0"></iframe>
+    <p>Pretty neat, eh? Let's talk about this new code. Instead of logging the returned object to the console, we now have this code:</p>
+    <pre>$("#results").html("");
+let searchResult = result;
+let output = "";
+searchResult.results.forEach(function(element) {
+  output += "&lt;br&gt;";
+	output += "Title: " + element.title;
+  output += "&lt;br&gt;";
+  output += "Author: " + element.author;
+  output += "&lt;br&gt;";
+})
+$("#results").html(output);</pre>
+    <p>All of this code is within the ajax.done method, which is a callback function that is called upon a successful ajax request. If there's a successful ajax request, we clear whatever is currently in the #results div. We then construct HTML code which contains the title and artist of the search results. searchResult.results is the results key of the returned object. .forEach is a method that will execute the given function for all elements in the array it acts on - in this case, the array is searchResult.results. So, we generate HTML to show the results, and then <code>$("#results").html(output);</code> injects the HTML into the #results div.</p>
+    <p>That's it! Within this tutorial, you learned about how to work with JSON, how to register for an API key for the New York Times's API, and then you learned how to use JavaScript to create a little web app with content generated from using a web API. Go and try to make your own web apps now!</p>
 </div>
 </body>
 </html>
