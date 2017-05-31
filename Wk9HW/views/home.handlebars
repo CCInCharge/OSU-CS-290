@@ -1,0 +1,27 @@
+<h1>Workouts</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Reps</th>
+            <th>Weight</th>
+            <th>Date</th>
+            <th>Lbs</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each workoutRows}}
+        <tr>
+            <td></td>
+            <td>{{this.name}}</td>
+            <td>{{this.reps}}</td>
+            <td>{{this.weight}}</td>
+            <td>{{this.date}}</td>
+            <td>{{this.lbs}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<p>{{results}}</p>
