@@ -1,9 +1,13 @@
 var express = require('express');
 var mysql = require('./dbcon.js');
+var bodyParser = require('body-parser');
 
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static('public'))
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', 3000);
@@ -21,6 +25,25 @@ app.get('/',function(req,res,next){
   });
 });
 
+app.post('/insert', function(req, res, next) {
+  var context = {};
+  mysql.pool.query("INSERT INTO workouts (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.body.name, req.body.reps || null, req.body.weight || null, req.body.date || null, req.body.lbs|| null], function(err, result){
+    if(err){
+      next(err);
+      return;
+    }
+    var newId = result.insertId;
+    mysql.pool.query("SELECT * FROM workouts WHERE ID=?", [newId], function (newErr, newResult) {
+      if(err){
+        next(err);
+        return;
+      }
+      res.send(newResult);
+    })
+  });
+});
+
+/*
 app.get('/insert',function(req,res,next){
   var context = {};
   mysql.pool.query("INSERT INTO workouts (`name`) VALUES (?)", [req.query.name], function(err, result){
@@ -31,6 +54,7 @@ app.get('/insert',function(req,res,next){
     res.render('home',context);
   });
 });
+*/
 
 app.get('/delete',function(req,res,next){
   var context = {};
