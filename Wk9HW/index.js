@@ -27,6 +27,7 @@ app.get('/',function(req,res,next){
 
 app.post('/insert', function(req, res, next) {
   var context = {};
+  res.header("Access-Control-Allow-Origin", "*");
   mysql.pool.query("INSERT INTO workouts (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.body.name, req.body.reps || null, req.body.weight || null, req.body.date || null, req.body.lbs|| null], function(err, result){
     if(err){
       next(err);
