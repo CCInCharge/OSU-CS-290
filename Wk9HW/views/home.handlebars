@@ -25,7 +25,7 @@
     <tbody>
         {{#each workoutRows}}
         <tr>
-            <td><input type="hidden" id="{{this.id}}"><button type="button" value="edit-button">edit</button><button type="button" onclick="deleteRow({{this.id}})">delete</button></td>
+            <td><input type="hidden" id="{{this.id}}"><button type="button" value="edit-button" onclick="editRow(this)">edit</button><button type="button" onclick="deleteRow({{this.id}})">delete</button></td>
             <td>{{this.name}}</td>
             <td>{{this.reps}}</td>
             <td>{{this.weight}}</td>
