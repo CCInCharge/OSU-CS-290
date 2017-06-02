@@ -39,7 +39,7 @@ function addWorkout() {
         weightCell.innerHTML = response.weight;
 
         let dateCell = newRow.insertCell(4);
-        dateCell.innerHTML = new Date(Date.parse(response.date));
+        dateCell.innerHTML = response.date;
 
         let lbsCell = newRow.insertCell(5);
         lbsCell.innerHTML = response.lbs;
@@ -117,7 +117,7 @@ function updateRow(thisButton) {
         thisRow.cells[1].innerHTML = response.name;
         thisRow.cells[2].innerHTML = response.reps;
         thisRow.cells[3].innerHTML = response.weight;
-        thisRow.cells[4].innerHTML = new Date(Date.parse(response.date));
+        thisRow.cells[4].innerHTML = response.date;
         thisRow.cells[5].innerHTML = response.lbs;
         thisButton.innerHTML = "edit";
         thisButton.setAttribute("onclick", "editRow(this)");

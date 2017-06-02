@@ -20,7 +20,7 @@ app.get('/',function(req,res,next){
       return;
     }
     context.workoutRows = rows;
-    context.results = JSON.stringify(rows);
+//    context.results = JSON.stringify(rows);
     res.render('home', context);
   });
 });
@@ -28,7 +28,7 @@ app.get('/',function(req,res,next){
 app.post('/insert', function(req, res, next) {
   var context = {};
   res.header("Access-Control-Allow-Origin", "*");
-  mysql.pool.query("INSERT INTO workouts (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.body.name, req.body.reps || null, req.body.weight || null, req.body.date || null, req.body.lbs|| null], function(err, result){
+  mysql.pool.query("INSERT INTO workouts (`name`, `reps`, `weight`, `date`, `lbs`) VALUES (?, ?, ?, ?, ?)", [req.body.name || null, req.body.reps || null, req.body.weight || null, req.body.date || null, req.body.lbs|| null], function(err, result){
     if(err){
       next(err);
       return;
@@ -109,7 +109,7 @@ app.get('/reset-table',function(req,res,next){
     "date DATE,"+
     "lbs BOOLEAN)";
     mysql.pool.query(createString, function(err){
-      context.results = "Table reset";
+//      context.results = "Table reset";
       res.render('home',context);
     })
   });
