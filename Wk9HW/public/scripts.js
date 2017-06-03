@@ -99,35 +99,37 @@ function updateRow(thisButton) {
 
   let rowID = thisButton.parentNode.getElementsByTagName("input")[0].getAttribute("id")
   rowID = parseInt(rowID);
-  let newName = thisRow.cells[1].firstElementChild.value
-  let newReps = thisRow.cells[2].firstElementChild.value;
-  let newWeight = thisRow.cells[3].firstElementChild.value;
-  let newDate = thisRow.cells[4].firstElementChild.value;
-  let newLbs = thisRow.cells[5].firstElementChild.value;
+  let newName = thisRow.cells[1].firstElementChild.value;
+  let newReps = thisRow.cells[2].firstElementChild.value || null;
+  let newWeight = thisRow.cells[3].firstElementChild.value || null;
+  let newDate = thisRow.cells[4].firstElementChild.value || null;
+  let newLbs = thisRow.cells[5].firstElementChild.value || null;
 
-  var req = new XMLHttpRequest();
-  var payload = {"id": rowID, "name": newName, "reps": newReps, "weight": newWeight, "date": newDate, "lbs": newLbs};
-  req.open("POST", "/update", true);
-  req.setRequestHeader('Content-Type', 'application/json');
-  req.onreadystatechange = function () {
-    if (this.readyState == 4) {
-      if(req.status >= 200 && req.status < 400){
-        var response = JSON.parse(req.responseText);
-        response = response[0];
-        thisRow.cells[1].innerHTML = response.name;
-        thisRow.cells[2].innerHTML = response.reps;
-        thisRow.cells[3].innerHTML = response.weight;
-        thisRow.cells[4].innerHTML = response.date;
-        thisRow.cells[5].innerHTML = response.lbs;
-        thisButton.innerHTML = "edit";
-        thisButton.setAttribute("onclick", "editRow(this)");
-        thisButton.setAttribute("value", "edit-button");
-      } else {
-        console.log(this.readyState);
-        console.log(req.status);
-        console.log("Error in network request: " + req.statusText);
+  if (newName != "") {
+    var req = new XMLHttpRequest();
+    var payload = {"id": rowID, "name": newName, "reps": newReps, "weight": newWeight, "date": newDate, "lbs": newLbs};
+    req.open("POST", "/update", true);
+    req.setRequestHeader('Content-Type', 'application/json');
+    req.onreadystatechange = function () {
+      if (this.readyState == 4) {
+        if(req.status >= 200 && req.status < 400){
+          var response = JSON.parse(req.responseText);
+          response = response[0];
+          thisRow.cells[1].innerHTML = response.name;
+          thisRow.cells[2].innerHTML = response.reps;
+          thisRow.cells[3].innerHTML = response.weight;
+          thisRow.cells[4].innerHTML = response.date;
+          thisRow.cells[5].innerHTML = response.lbs;
+          thisButton.innerHTML = "edit";
+          thisButton.setAttribute("onclick", "editRow(this)");
+          thisButton.setAttribute("value", "edit-button");
+        } else {
+          console.log(this.readyState);
+          console.log(req.status);
+          console.log("Error in network request: " + req.statusText);
+        }
       }
     }
+    req.send(JSON.stringify(payload));
   }
-  req.send(JSON.stringify(payload));
 }
