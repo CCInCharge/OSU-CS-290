@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(express.static('public'))
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
-app.set('port', 3000);
+app.set('port', 42391);
 
 app.get('/',function(req,res,next){
   var context = {};
@@ -43,19 +43,6 @@ app.post('/insert', function(req, res, next) {
     })
   });
 });
-
-/*
-app.get('/insert',function(req,res,next){
-  var context = {};
-  mysql.pool.query("INSERT INTO workouts (`name`) VALUES (?)", [req.query.name], function(err, result){
-    if(err){
-      next(err);
-      return;
-    }
-    res.render('home',context);
-  });
-});
-*/
 
 app.post('/delete',function(req,res,next){
   var context = {};
